@@ -1,0 +1,10 @@
+# Local backups
+backup/
+*.backup
+
+# System & IDE files
+.DS_Store
+*.pyc
+__pycache__/
+.idea/
+.vscode/

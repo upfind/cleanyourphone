@@ -1,0 +1,28 @@
+# Xiaomi / Redmi (MIUI / HyperOS) 广告与冗余服务精简列表
+# 
+# 使用规则：
+# 1. 采用 pm disable-user --user 0 停用，不卸载、不破坏系统升级完整性。
+# 2. 以 # 开头的行为注释；每行一个包名，支持行尾跟随 # 注释。
+# 3. 随时可通过 tools/restore.sh 一键恢复。
+
+# ==================== 1. 核心广告与遥测跟踪服务 ====================
+com.miui.systemAdSolution          # MSA (MIUI System Ad Solution，系统广告核心分发引擎，强烈建议停用)
+com.miui.analytics                 # 小米系统遥测、数据采集与上报服务
+com.miui.bugreport                 # 崩溃日志与错误收集自动上报组件
+com.miui.personalassistant         # 智能助理/负一屏（瀑布流资讯与商业推荐，若不用负一屏建议停用）
+
+# ==================== 2. 锁屏与资讯推广 ====================
+com.mfashiongallery.emag           # 小米锁屏画报（锁屏轮播壁纸广告）
+com.miui.hybrid                    # 快应用引擎（通过网页诱导拉起全屏广告与快应用）
+com.miui.hybrid.accessory          # 快应用辅助服务
+
+# ==================== 3. 冗余系统应用推广服务 ====================
+com.miui.yellowpage                # 小米黄页（来电信息与商家广告推广）
+com.xiaomi.payment                 # 小米钱包服务（如果不用小米公交/门卡/Mi Pay，可停用其推广服务）
+com.miui.translation.youdao        # 有道翻译推广服务
+
+# ==================== 4. 视听与游戏内置推广（根据个人需求选择） ====================
+# 如果你平时使用 QQ音乐/网易云/B站/爱奇艺等第三方 App，可以解除以下自带视听 App 的注释进行停用：
+# com.miui.player                  # 小米音乐（内置大量首页推广）
+# com.miui.videoplayer             # 小米视频（内置大量信息流广告）
+# com.xiaomi.gamecenter.pad        # 游戏中心推广
