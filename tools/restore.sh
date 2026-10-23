@@ -13,12 +13,10 @@ echo "=================================================="
 echo "        CleanYourPhone - 一键还原工具"
 echo "=================================================="
 
-if ! command -v adb >/dev/null 2>&1; then
-    echo "错误: 未找到 adb 命令。" >&2
-    exit 1
-fi
+# 自动解析或配置 ADB
+ADB=$(python3 "$SCRIPT_DIR/phone.py" --get-adb-path)
 
-DEVICES=$(adb devices | grep -w "device" || true)
+DEVICES=$("$ADB" devices | grep -w "device" || true)
 if [ -z "$DEVICES" ]; then
     echo "错误: 未检测到连接的设备，请连接手机并确认开启 USB 调试。" >&2
     exit 1
@@ -43,10 +41,10 @@ if [ -n "$RESTORE_LIST" ]; then
     RESTORE_COUNT=0
     for pkg in $PKGS; do
         if [ -n "$pkg" ]; then
-            adb shell pm enable --user 0 "$pkg" >/dev/null 2>&1 || true
+            "$ADB" shell pm enable --user 0 "$pkg" >/dev/null 2>&1 || true
             echo "  - 已重新启用: $pkg"
             RESTORE_COUNT=$((RESTORE_COUNT + 1))
-        done
+        fi
     done
     echo "✓ 阶段一完成: 共恢复 $RESTORE_COUNT 个系统组件。"
 fi
@@ -54,19 +52,17 @@ fi
 # 2. 恢复系统设置与 DNS
 echo ""
 echo "[2/3] 正在恢复系统设置与 DNS 配置..."
-# 恢复 DNS
 if [ -f "$LATEST_SNAPSHOT/private_dns_mode_before.txt" ] && [ -s "$LATEST_SNAPSHOT/private_dns_mode_before.txt" ]; then
     ORIG_DNS_MODE=$(cat "$LATEST_SNAPSHOT/private_dns_mode_before.txt" | tr -d '[:space:]')
-    adb shell settings put global private_dns_mode "$ORIG_DNS_MODE" >/dev/null 2>&1 || true
+    "$ADB" shell settings put global private_dns_mode "$ORIG_DNS_MODE" >/dev/null 2>&1 || true
     echo "  - 还原 Private DNS 模式: $ORIG_DNS_MODE"
 else
-    adb shell settings put global private_dns_mode "opportunistic" >/dev/null 2>&1 || true
+    "$ADB" shell settings put global private_dns_mode "opportunistic" >/dev/null 2>&1 || true
     echo "  - 还原 Private DNS 模式为默认: opportunistic (自动)"
 fi
 
-# 恢复广告追踪开关
-adb shell settings put secure limit_ad_tracking 0 >/dev/null 2>&1 || true
-adb shell settings put system personalized_ad_enabled 1 >/dev/null 2>&1 || true
+"$ADB" shell settings put secure limit_ad_tracking 0 >/dev/null 2>&1 || true
+"$ADB" shell settings put system personalized_ad_enabled 1 >/dev/null 2>&1 || true
 echo "  - 还原个性化推荐设置"
 echo "✓ 阶段二完成。"
 
@@ -86,8 +82,8 @@ if [ -n "$SHAKE_LIST" ]; then
     
     for pkg in $SHAKE_PKGS; do
         if [ -n "$pkg" ]; then
-            adb shell appops set "$pkg" BODY_SENSORS allow >/dev/null 2>&1 || true
-            adb shell appops set "$pkg" ACTIVITY_RECOGNITION allow >/dev/null 2>&1 || true
+            "$ADB" shell appops set "$pkg" BODY_SENSORS allow >/dev/null 2>&1 || true
+            "$ADB" shell appops set "$pkg" ACTIVITY_RECOGNITION allow >/dev/null 2>&1 || true
             echo "  - 恢复传感器权限: $pkg"
         fi
     done

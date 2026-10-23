@@ -1,19 +1,72 @@
 #!/usr/bin/env python3
 """CleanYourPhone CLI & Device Helper.
 
-Provides device probing, status backup and ADB helper functions.
-Supports standard system ADB via USB or Wi-Fi.
+Provides automatic ADB environment bootstrapping, device probing,
+status backup and ADB helper functions.
 """
 import os
-import re
+import platform
+import shutil
 import subprocess
 import sys
+import urllib.request
+import zipfile
 from pathlib import Path
+
+TOOLS_DIR = Path(__file__).resolve().parent
+BIN_DIR = TOOLS_DIR / "bin"
+
+
+def ensure_adb():
+    """Ensure adb binary is available. If not, auto-download Google platform-tools."""
+    # 1. 优先使用系统已有的 adb
+    system_adb = shutil.which("adb")
+    if system_adb:
+        return system_adb
+
+    # 2. 检查本地 tools/bin 是否已下载过
+    bin_name = "adb.exe" if platform.system() == "Windows" else "adb"
+    local_adb = BIN_DIR / "platform-tools" / bin_name
+    if local_adb.is_file() and os.access(local_adb, os.X_OK):
+        return str(local_adb)
+
+    # 3. 自动从 Google 官方轻量源下载 (约 10MB)
+    system_name = platform.system()
+    if system_name == "Darwin":
+        url = "https://dl.google.com/android/repository/platform-tools-latest-darwin.zip"
+    elif system_name == "Linux":
+        url = "https://dl.google.com/android/repository/platform-tools-latest-linux.zip"
+    elif system_name == "Windows":
+        url = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip"
+    else:
+        sys.exit(f"错误: 不支持的操作系统 {system_name}，请手动安装 adb。")
+
+    print("=" * 48, file=sys.stderr)
+    print("检测到电脑尚未配置 ADB，正在为您全自动准备环境...", file=sys.stderr)
+    print("正在从 Google 官方直链获取 platform-tools (~10MB)...", file=sys.stderr)
+    print("=" * 48, file=sys.stderr)
+
+    BIN_DIR.mkdir(parents=True, exist_ok=True)
+    zip_path = BIN_DIR / "platform-tools.zip"
+
+    try:
+        urllib.request.urlretrieve(url, zip_path)
+        with zipfile.ZipFile(zip_path, "r") as zip_ref:
+            zip_ref.extractall(BIN_DIR)
+        if zip_path.exists():
+            zip_path.unlink()
+        if platform.system() != "Windows":
+            local_adb.chmod(0o755)
+        print("✓ ADB 调试环境已自动就绪！无需手动配置环境变量。\n", file=sys.stderr)
+        return str(local_adb)
+    except Exception as e:
+        sys.exit(f"自动下载 ADB 失败 ({e})。请检查网络，或手动安装 platform-tools。")
 
 
 def run_adb(args, check=True):
     """Run an ADB command and return stdout string."""
-    cmd = ["adb"] + args
+    adb_path = ensure_adb()
+    cmd = [adb_path] + args
     try:
         res = subprocess.run(
             cmd,
@@ -23,8 +76,6 @@ def run_adb(args, check=True):
             check=check,
         )
         return res.stdout.strip()
-    except FileNotFoundError:
-        sys.exit("错误: 未找到 adb 命令。请先安装 Android Platform Tools 并将其加入 PATH。")
     except subprocess.CalledProcessError as e:
         if check:
             sys.exit(f"ADB 命令执行失败 ({' '.join(cmd)}):\n{e.stderr.strip()}")
@@ -41,7 +92,7 @@ def probe():
     devices = run_adb(["devices"]).splitlines()
     online_devices = [line.split()[0] for line in devices[1:] if "\tdevice" in line]
     if not online_devices:
-        sys.exit("错误: 未检测到已连接的 Android 设备。请开启手机 USB 调试并允许电脑连接。")
+        sys.exit("错误: 未检测到已连接的 Android 设备。\n请用数据线连接手机，并在手机上开启「USB 调试」且点击「允许调试」。")
 
     brand = get_prop("ro.product.brand") or get_prop("ro.product.manufacturer")
     model = get_prop("ro.product.model")
@@ -66,6 +117,10 @@ def probe():
 
 
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] == "--get-adb-path":
+        print(ensure_adb())
+        return
+
     if len(sys.argv) < 2 or sys.argv[1] == "--probe":
         probe()
     elif sys.argv[1] == "--getprop":
@@ -74,7 +129,7 @@ def main():
         else:
             print("用法: phone.py --getprop <属性名>")
     else:
-        print("用法: phone.py [--probe | --getprop <name>]")
+        print("用法: phone.py [--probe | --get-adb-path | --getprop <name>]")
 
 
 if __name__ == "__main__":
