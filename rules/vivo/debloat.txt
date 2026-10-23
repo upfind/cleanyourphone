@@ -1,0 +1,115 @@
+# vivo / iQOO (OriginOS / Funtouch OS) 广告与臃肿服务精简列表
+# 数据来源：UAD-NG (Universal Android Debloater Next Generation) + 本地优化规则
+# 级别：Recommended (推荐停用，不影响系统正常核心功能与通信)
+# 说明：采用 pm disable-user --user 0 停用，不卸载，随时可通过 tools/restore.sh 一键恢复。
+
+# ==================== 1. 核心广告、统计与遥测追踪服务 (13 项) ====================
+com.bbk.iqoo.logsystem                   # User experience service Telemetry app. Note:Disabling this will break trial version system upgrade feature.
+com.bbk.theme                            # Vivo theme (https://play.google.com/store/apps/details?id=com.bbk.theme) Lets you add new themes, fonts and wallpapers. It has annoying notifications that cannot be disabled by going to the app settings. This app use 50 permissions and can install packages (REQUEST_INSTALL_PACKAGES) Note: Removing this app will prevent you to change themes.  Pithus analysis: https://beta.pithus.org/report/0f15055131637d3dbc55d3a49b8e79b4f76ca09871abf9eb43b5f88afde11800
+com.vivo.alphacamera                     # AlphaCamera Engineering Mode, Log, Debugging service camera.
+com.vivo.cota                            # COTA Useless logs and ads. It's for recommendations.
+com.vivo.favorite                        # Favorites It's used to add text from the clipboard to favorites. Probably requires cloud. Contains untranslated Chinese things.
+com.vivo.feedback                        # Feedback Lets you rate your device and share feedback.
+com.vivo.findphone                       # Find It's used for finding the phone. Log out from account before removing.
+com.vivo.networkimprove                  # NetworkImprove May be only for China because of non-English words. Also has logs.
+com.vivo.sps                             # SuperProcessSystem Useless app statistics, logs, crash handler, security, error memory management. Also have something to com.vivo.abe but some phones don't have com.vivo.sps installed. And where is the optimization code?
+com.vivo.systemblur.server               # System blur render engine System blur render engine, logs
+com.vivo.upnpserver                      # Phone Mirroring Smart things and needed for broadcast?
+com.vivo.vibrator4d                      # vibrator4d Used for games? Contains a lot of feedback things.
+com.vivo.voicewakeup                     # Voice wake-up. Has a lot of permissions (REQUEST_INSTALL_PACKAGES, READ_EXTERNAL_STORAGE, RECORD_AUDIO...). Kind of a "smart assistant" ? It is constantly listening waiting for a trigger word [MORE INFO NEEDED]
+
+# ==================== 2. 锁屏画报、壁纸与商业轮播 (6 项) ====================
+com.vivo.livewallpaper.coffeetime        # Specific Live wallpaper
+com.vivo.livewallpaper.coralsea          # Specific Live wallpaper
+com.vivo.livewallpaper.floatingcloud     # com.vivo.livewallpaper.coffeetime Specific Live wallpaper
+com.vivo.livewallpaper.plant             # Plant live wallpaper Specific live wallpaper.
+com.vivo.livewallpaper.silk              # com.vivo.livewallpaper.coffeetime Specific Live wallpaper
+com.vivo.magazine                        # vivo 锁屏画报/杂志壁纸广告
+
+# ==================== 3. 负一屏资讯、信息流与自带浏览器推广 (6 项) ====================
+com.vivo.assistant                       # Vivo assistant Assistant for vivo phones.
+com.vivo.assistantfunction               # Steps Jovi Home kit. Record walk sport app.
+com.vivo.browser                         # vivo 自带浏览器 (信息流推广与资讯广告)
+com.vivo.globalsearch                    # Global Search it's chinese searching.
+com.vivo.hiboard                         # 负一屏/智慧桌面资讯信息流
+com.vivo.puresearch                      # Search Widget Desktop search bar
+
+# ==================== 4. 视听娱乐、应用商店与游戏中心推广 (14 项) ====================
+com.bbk.appstore.game                    # 游戏推荐服务
+com.vivo.abe                             # Audio EQ(equalizer) Some 3rd-party music apps can use it to provide you EQ features.
+com.vivo.appstore                        # V-Appstore vivo app store.
+com.vivo.demovideo                       # Video Demo Demo Video, Demo Switch, and have verify activity
+com.vivo.dream.music                     # i Music Screensaver music
+com.vivo.easyshare                       # Easy share Sharing apps to another phone. https://play.google.com/store/apps/details?id=com.vivo.easyshare
+com.vivo.gamewatch                       # GameWatch Contains a lot of Chinese code and it's hidden?
+com.vivo.minscreen                       # Small screen mode This feature is available on settings.
+com.vivo.music                           # 自带音乐商业推广
+com.vivo.musicwidgetmix                  # Origin Player Music Widget Mix
+com.vivo.video                           # 自带视频流媒体推广
+com.vivo.video.floating                  # Face beauty for video call it's a features for video call vivo.
+com.vivo.videoeditor                     # Video Trim Video editor
+com.vivo.virtuallight                    # Ambient light effect It's music light effect (Settings: Dynamic Effects: Ambient Light Effect)
+
+# ==================== 5. 其他推荐停用的系统臃肿组件 (UAD Recommended) (61 项) ====================
+com.bbk.SuperPowerSave                   # Super Battery Saver Not sure if it's useful or not. Super power save.
+com.bbk.cloud                            # vivoCloud Vivo cloud services.
+com.bbk.photoframewidget                 # Photo frame Photo widget.
+com.vivo.SmartKey                        # Quick action Chinese smart things.
+com.vivo.audiofx                         # Audio effect Needed for sound effects.
+com.vivo.bsptest                         # BSPTest Hidden app for testing things.
+com.vivo.compass                         # Compass Vivo compass app
+com.vivo.contentcatcher                  # Unused frameworks.
+com.vivo.crontab                         # Task timer It's for scheduling tasks.
+com.vivo.daemonService                   # vivoService Security thing.
+com.vivo.desktopstickers                 # Stickers Customize widgets with favorite images.
+com.vivo.devicereg                       # Hidden debugging app ims.
+com.vivo.doubleinstance                  # App Clone It's for clone app.
+com.vivo.doubletimezoneclock             # i Widget Double Timezone Clock Widget
+com.vivo.dream.clock                     # Clock Screensaver clock
+com.vivo.dream.weather                   # Weather Screensaver weather
+com.vivo.engineercamera                  # EngineerCamera Testing camera things.
+com.vivo.epm                             # EPM Useless crash app notify.
+com.vivo.ewarranty                       # E-warranty card Only for China.
+com.vivo.fingerprintengineer             # Fingerprint test Hidden Fingerprint testing not available for normal users.
+com.vivo.fingerprintvit                  # Fingerprint testing.
+com.vivo.floatingball                    # Floating ball Contains a lot of Chinese code.
+com.vivo.fuelsummary                     # FuelSummary Battery testing.
+com.vivo.globalanimation                 # Global dynamic effects This is for effects and animations.
+com.vivo.globalanimation.resources       # GlobalanmationResources Has animation booting probably, safe to remove.
+com.vivo.healthwidget                    # Health kit it's only widgets.
+com.vivo.heduohao                        # Used for Chinese SIM.
+com.vivo.iotserver                       # Related to Jovi Chinese.
+com.vivo.monochromeicons                 # MonochromeIcons In code found something to vivo icons. In Android 14.
+com.vivo.motionrecognition               # Smart motion Gestures and smart things.
+com.vivo.networkstate                    # NetworkState Virtual sim things. Only for China.
+com.vivo.nightpearl                      # Always on Display Always on display, it's available in settings.
+com.vivo.nps                             # iQOO, vivo experience assessment. This app has nothing necessary in the code.
+com.vivo.numbermark                      # Number mark Contains a lot of Chinese code.
+com.vivo.phoneinstructions               # Phone Instructions it's used to app clone for phone instructions.
+com.vivo.pushservice                     # vivo 营销推送通道
+com.vivo.quickpay                        # Quick Pay Chinese pay.
+com.vivo.safecenter                      # Security Center Useless security.
+com.vivo.secime.service                  # SecIME Talkback Chinese.
+com.vivo.setupwizard                     # It's only for first-boot setup.
+com.vivo.simplelauncher                  # Simple launcher, Simple View.
+com.vivo.smartLife                       # Jovi InLife service home devices and smart interconnectivity.
+com.vivo.smartanswer                     # smart answer A lot of bloated smart answer.
+com.vivo.smartunlock                     # smart unlock device it's used for unlock device using bluetooth devices probably.
+com.vivo.space                           # vivo 营销中心/生活服务商业推广
+com.vivo.stepcount                       # Step Count Application it's hard to say what app actually doing looks like a useless frameworks to widgets and swipe menu
+com.vivo.timerwidget                     # Alarm widget Widget clock in launcher, home screen.
+com.vivo.unionpay                        # Payment v-Coin it's for china probably.
+com.vivo.upslide                         # System navigation Needed for secure and smart things.
+com.vivo.vhome                           # Smart Remote it's for smart things.
+com.vivo.vhomeguide                      # VHome Not needed vhome guide suggestions.
+com.vivo.vivokaraoke                     # Mobile KTV Vivo karaoke.
+com.vivo.vms                             # Unused frameworks. Chinese.
+com.vivo.vtouch                          # Smart Vision Spying a lot. Smart things.
+com.vivo.wallet                          # Vivo wallet Everything is in Chinese.
+com.vivo.weather                         # Weather Vivo weather app, have Chinese trackers.
+com.vivo.weather.provider                # Weather storage Vivo weather app, has Chinese trackers.
+com.vivo.widget.cleanspeed               # Clean up acceleration components Clean speed widget
+com.vivo.widget.gallery                  # Album Highlights Gallery widget
+com.vivo.widgetweather                   # Weather components Weather widget
+com.vivo.wifiengineermode                # Needed for WiFi info? it's engineermode so probably not.
+

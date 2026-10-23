@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """CleanYourPhone CLI & Device Helper.
 
-Provides automatic ADB environment bootstrapping, device probing,
+Provides automatic ADB environment bootstrapping, multi-brand device probing,
 status backup and ADB helper functions.
 """
 import os
@@ -87,6 +87,22 @@ def get_prop(name):
     return run_adb(["shell", "getprop", name], check=False)
 
 
+def detect_brand():
+    """Detect phone brand and return brand id matching rules/<brand>."""
+    raw_brand = (get_prop("ro.product.brand") or get_prop("ro.product.manufacturer") or "").lower()
+    if any(k in raw_brand for k in ("xiaomi", "redmi", "poco", "blackshark")):
+        return "xiaomi"
+    if any(k in raw_brand for k in ("oppo", "oneplus", "realme")):
+        return "oppo"
+    if any(k in raw_brand for k in ("vivo", "iqoo")):
+        return "vivo"
+    if any(k in raw_brand for k in ("honor", "huawei")):
+        return "honor"
+    if any(k in raw_brand for k in ("samsung",)):
+        return "samsung"
+    return "unknown"
+
+
 def probe():
     """Probe connected device info."""
     devices = run_adb(["devices"]).splitlines()
@@ -101,15 +117,16 @@ def probe():
     sdk_ver = get_prop("ro.build.version.sdk")
     miui_ver = get_prop("ro.miui.ui.version.name")
     os_ver = get_prop("ro.build.version.incremental")
+    brand_id = detect_brand()
 
     print("=" * 48)
     print("           CleanYourPhone 设备探针")
     print("=" * 48)
-    print(f"品牌 / 厂商:   {brand}")
+    print(f"品牌 / 厂商:   {brand} (规则标识: {brand_id})")
     print(f"设备型号:       {model} {f'({market_name})' if market_name else ''}")
     print(f"Android 版本:  {android_ver} (API Level {sdk_ver})")
     if miui_ver:
-        print(f"MIUI/HyperOS:  {miui_ver} ({os_ver})")
+        print(f"定制系统:       {miui_ver} ({os_ver})")
     else:
         print(f"固件版本:       {os_ver}")
     print("=" * 48)
@@ -121,6 +138,10 @@ def main():
         print(ensure_adb())
         return
 
+    if len(sys.argv) > 1 and sys.argv[1] == "--get-brand":
+        print(detect_brand())
+        return
+
     if len(sys.argv) < 2 or sys.argv[1] == "--probe":
         probe()
     elif sys.argv[1] == "--getprop":
@@ -129,7 +150,7 @@ def main():
         else:
             print("用法: phone.py --getprop <属性名>")
     else:
-        print("用法: phone.py [--probe | --get-adb-path | --getprop <name>]")
+        print("用法: phone.py [--probe | --get-adb-path | --get-brand | --getprop <name>]")
 
 
 if __name__ == "__main__":

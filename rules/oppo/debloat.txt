@@ -1,0 +1,138 @@
+# OPPO / 一加 (OnePlus) / 真我 (Realme) (ColorOS / Realme UI) 广告与臃肿服务精简列表
+# 数据来源：UAD-NG (Universal Android Debloater Next Generation) + 本地优化规则
+# 级别：Recommended (推荐停用，不影响系统正常核心功能与通信)
+# 说明：采用 pm disable-user --user 0 停用，不卸载，随时可通过 tools/restore.sh 一键恢复。
+
+# ==================== 1. 核心广告、统计与遥测追踪服务 (35 项) ====================
+com.coloros.feedback                     # Feedback service Feedback for OPPO
+com.coloros.findmyphone                  # Find phone Find phone, logout from oppo account before
+com.coloros.gamespaceui                  # GameSpace Gaming utility aiming at 'optimizing your gaming experience'. Has a lot of permissions. For instance, it has internet access, will scans all the apps you have on your phones (to find games), can performs Bluetooth scan and has access to the metadata of your media files (e.g the place where you took a picture).
+com.coloros.logkit                       # LogKit Logs, Dial *#800# for running it
+com.coloros.logkit.plugin.upload         # Useless plugin for logs
+com.coloros.mcs
+com.coloros.onekeylockscreen             # Lock your phone if you click on the app icon. Completely useless unless your physical power button is damaged. This app still has the permission to list all the apps installed on the phone.  Pithus analysis: https://beta.pithus.org/report/ece4088357c0a47dffd96bdc46a7b535d448c1a3619d995f7032df3be6cb0a38
+com.coloros.operationManual              # Help & feedback Help (in Settings - Other Settings)
+com.coloros.phonemanager                 # Phone Manager Provides so called 'optimization tools' and various security scanning services. These virus scanning services may have privacy implications.  Pithus analysis: https://beta.pithus.org/report/6b7d9e117ffb600b852f3785ede4f3773385fc291376e94a061bf7ed787dec48
+com.coloros.prome.service                # Useless frameworks. About feedback and smart touch.
+com.coloros.remoteguardservice           # Remote Guard Service Have only useless statistics and depends on: com.coloros.mcs, com.heytap.mcs ONLY FOR CHINA.
+com.coloros.safecenter.config_plugin     # This plugin doesn't have any important things. It's safe to remove, useless logs code.
+com.coloros.sauhelper                    # SAUHelper It has only statistics and logs.
+com.coloros.securepay                    # Payment system from Oppo allowing you to pay with your phone  Pithus analysis: https://beta.pithus.org/report/65246664d3795a5ac1b402d28456903e1b3bd76176de8298b3ea96c6c592ae9a
+com.coloros.securitykeyboard             # Secure keyboard Not needed if your keyboard is already good.
+com.coloros.video                        # Video Player Default Oppo and OnePlus video player with too much permissions (21) for a video player! Note: using inbuilt screen recorder you won't be able to open the recorded video from the notification view.  Pithus analysis: https://beta.pithus.org/report/4ceb96c23ad0e26ee8eceab293d251f8b1bddaf4a901741ee467e0bb867db6e9
+com.heytap.cloud                         # HeyTap Cloud Bad privacy policy: https://muc.heytap.com/document/heytap/oversea/privacyPolicy/privacyPolicy_en-US.html Why does the app need `REQUEST_INSTALL_PACKAGES` (can install packages)? Pithus analysis: https://beta.pithus.org/report/dbf265db47f8632453bb83ef51ea1d921413c02a8d24c989345896de83704a75
+com.heytap.market                        # Heytap/Oppo app store.There is no benefit of using this app store and you should not keep a privileged app with as many permissions.  https://developers.oppomobile.com/newservice/capability?pagename=app_store Pithus analysis: https://beta.pithus.org/report/3a2a10af9310411d814fd6dd252adec1ab0c06adf32a675b7534c3edc0e534bf
+com.heytap.mcs                           # 欢太移动云推送 (通知栏营销广告主力推送服务)
+com.heytap.openid                        # OpenID Device logos and advertisements; uninstallation causes anomalies in cloud drive functionality
+com.heytap.themestore                    # Theme Store with 73 permissions! (including CAMERA, CALL_PHONE, READ_CONTACTS, REQUEST_INSTALL_PACKAGES...) and 2 trackers.  Pithus analysis: https://beta.pithus.org/report/e8c4fc2bae420cf5f094ce914f25accdede5152f9d801db6eb32a4020a7726b2
+com.nearme.deamon                        # Package needed by com.nearme.statistics.rom to run service in background at every boot even though the app has been uninstalled
+com.nearme.instant.platform              # A lot of tracking for demo game ads
+com.nearme.statistics                    # 欢太数据统计与遥测上报
+com.nearme.statistics.rom                # User Experience Program  Collect user data and sends them to Oppo. Intrusive and starts at boot See https://support.oppo.com/uk/answer/?aid=neu105  Note: removing it may break the search feature in the settings on some ColorOS versions.  Pithus analysis: https://beta.pithus.org/report/5e06191ac6f8aefd39642f6341ee4897039815f5059dbe093a7bd2fe1e20c038
+com.oppo.criticallog                     # I found logs in code. This app means nothing.
+com.oppo.instant.local.service           # A lot of tracking for demo game ads
+com.oppo.logkit
+com.oppo.logkitsdservice                 # Hidden logs hardware without activities.
+com.oppo.logkitservice                   # Probably same as "com.oem.oemlogkit", which is a shady logging package on Oneplus devices.
+com.oppo.nw                              # RadioInfo Only has radioinfo activity. Not needed
+com.oppo.qualityprotect                  # Useless logs
+com.oppo.smartvolume                     # This app means nothing. There's only logs.
+com.realme.logtool                       # Hidden Logs App
+com.realme.securitycheck                 # Have useless ads and security checks. Why do we need more security when Play Protect is already good?
+
+# ==================== 2. 锁屏画报、壁纸与商业轮播 (4 项) ====================
+com.coloros.lockscreen.magazine          # ColorOS 锁屏杂志/画报 (锁屏商业推广壁纸)
+com.heytap.pictorial                     # Lock Screen Magazine Lock Screen Magazine provides high-quality wallpapers and allows users to customize their lock screens. Every time you wake your screen, the wallpaper automatically changes. https://play.google.com/store/apps/details?id=com.heytap.pictorial
+com.nearme.themespace                    # Theme store
+com.nearme.themestore                    # Themes store
+
+# ==================== 3. 负一屏资讯、信息流与自带浏览器推广 (11 项) ====================
+com.coloros.accessibilityassistant       # AI VoiceScribe. It's used to convert speech to text in real-time for accessibility purposes. Can be safely deleted if you don't use AI services.
+com.coloros.floatassistant               # GA ball, Assistive ball feature.
+com.coloros.speechassist                 # ColorOS Speech Assistant
+com.heytap.browser                       # 欢太浏览器 (自带信息流资讯与广告)
+com.heytap.datamigration                 # Some tools for stock browser (not Chrome), but it's Chinese and probably unused
+com.heytap.quicksearchbox                # Global Search Realme. This will remove the single swipe from top to bottom search that has lots of Chinese in it.
+com.heytap.speechassist                  # Breeno Voice Breeno assistant.
+com.nearme.browser                       # Default web browser
+com.nearme.gamecenter                    # Game Center Acts like QooApp that has a game forum, news, etc. Contains trackers.
+com.oppo.partnerbrowsercustomizations    # Oppo Bookmarks Oppo default browser customization. Injects Oppo bookmarks
+com.oppo.quicksearchbox                  # Single swipe from top to bottom search that has lots of Chinese in it
+
+# ==================== 4. 视听娱乐、应用商店与游戏中心推广 (7 项) ====================
+com.coloros.backuprestore                # Most likely Oppo backup/restore feature
+com.coloros.backuprestore.remoteservice  # It has something to scan always Wi-Fi but it's probably unused.
+com.coloros.gamespace                    # 游戏空间 (内置游戏中心广告推广)
+com.heytap.music                         # 自带音乐推广组件
+com.oppo.music                           # Oppo Music app
+com.realme.as.music                      # Realme Music app https://play.google.com/store/apps/details?id=com.realme.as.music
+com.realme.link                          # RealMe Link (https://play.google.com/store/apps/details?id=com.realme.link) Companion app for various realme IoT devices. Useless if you don't have a realme watch/band
+
+# ==================== 5. 其他推荐停用的系统臃肿组件 (UAD Recommended) (66 项) ====================
+com.coloros.apprecover                   # Used for app recovery?
+com.coloros.avastofferwall               # Avast Offerwall Avast anti-virus things.
+com.coloros.calculator                   # Calculator app Has internet access because it can convert exchange rate, but I don't know whether it's used for other things as well or not.
+com.coloros.childrenspace                # Limit time spending on apps for kids.
+com.coloros.cloud                        # Oppo Cloud
+com.coloros.codebook                     # Password manager App where you can keep passwords.
+com.coloros.colordirectservice           # Screen Recognition (Breeno Touch). This app is used to recognize screen contents and provide quick access to relevant services (like Text Extraction, AI Summarizer). com.coloros.ocrscanner, com.coloros.ocrservice, com.oplus.ocs, com.oplus.aiunit, com.coloros.ocs.opencapabilityservice are also needed for this to work.
+com.coloros.colorfilestand               # It has only Request permission activity. Probably useless framework also it has something to do with cloud.
+com.coloros.directui                     # Brenoo touch Smart things it can be found in settings.
+com.coloros.dirrecord                    # Security features, anti-trojan?
+com.coloros.exserviceui                  # Edge touch Gesture-related things. Edge touch
+com.coloros.eyeprotect                   # It's the only eye protection option
+com.coloros.focusmode                    # Focus mode it's option that can be found in settings.
+com.coloros.gesture                      # Gestures & Motions Somatic gestures (double tap to light up the screen)
+com.coloros.healthcheck                  # Health check Health check? Probably hidden.
+com.coloros.healthservice                # Health service Another thing related to health check
+com.coloros.karaoke                      # In-ear monitoring Basically ColorOS's high volume warning system. Can be removed fine if you don't want it.
+com.coloros.launcher.layout              # Useless code that means nothing for the launcher
+com.coloros.mapcom.frame                 # Useless frameworks
+com.coloros.ocrscanner                   # ColorOS Optical character recognition scanner
+com.coloros.ocrservice                   # Extract text from images.
+com.coloros.ocs.opencapabilityservice    # Security things and something related to Chinese payment
+com.coloros.operationtips                # Tips
+com.coloros.oppomultiapp                 # App cloner Needed for app clone feature.
+com.coloros.phonenoareainquire           # Number Origin
+com.coloros.prome.smsservice             # Useless SMS frameworks.
+com.coloros.regservice                   # Mobile DM authentication related (recommended to be uninstalled)
+com.coloros.safesdkproxy                 # It has cleaner and security things.
+com.coloros.scenemode                    # Scene mode and simple mode
+com.coloros.sceneservice                 # Data Services Platform Data Services Platform (the entire Breeno option in the settings menu disappears after deletion)
+com.coloros.securityguard                # Security Events (located in Phone Manager - Security Tools, it is recommended to uninstall it).
+com.coloros.sharescreen                  # Shared screen assistance Shared screen assistance (nobody need it)
+com.coloros.smartdrive                   # Breeno smart drive it's for smart things.
+com.coloros.smartlock                    # "Phone stays unlocked when using a wearable device" feature support component.
+com.coloros.smartsidebar                 # Smart Sidebar Edge panel settings
+com.coloros.trafficlimit                 # Useless frameworks
+com.coloros.translate.engine             # Used for translation?
+com.coloros.wallet                       # Oppo Wallet
+com.coloros.wifisecuredetect             # Useless for Wi-Fi. Has captcha and mobile number verification.
+com.heytap.colorfulengine                # Useless frameworks for theming. Maybe needed for premium
+com.heytap.habit.analysis                # 用户习惯分析与个性化广告画像服务
+com.heytap.yoli                          # 自带视频/短视频信息流推广
+com.nearme.atlas                         # Secure payment
+com.oppo.atlas                           # Useless frameworks
+com.oppo.bttestmode                      # Test BLE Tx and Rx channel
+com.oppo.customize                       # Only Hello world! found in app also things to com.orange.aura.oobe
+com.oppo.fingerprints.fingerprintsensortest # Fingerprint sensort test
+com.oppo.freefallingmonitor              # I found only: Hello World!. This app means nothing.
+com.oppo.healthservice                   # Some health function, needed for the correct work of fitness trackers and pedometers from realme. When deleted, it does not seem to affect the operation of the phone.
+com.oppo.lfeh                            # OppoLFEHer DCS service, another thing related to scanning. Bloated
+com.oppo.localservice                    # It's an app without activities, and in the code, I found it's for Set Mode Daemon Point, but how can we use that? I guess it's for testing, so remove it.
+com.oppo.locationpicker                  # Location works without.
+com.oppo.market                          # 欢太软件商店推广组件
+com.oppo.mimosiso                        # Empty app. I only found: hello world!
+com.oppo.multimedia.dolby                # Oppo Dolby service equalizer, but only for Chinese apps
+com.oppo.operationManual                 # Oppo User Manual
+com.oppo.oppopowermonitor                # Battery monitoring
+com.oppo.ovoicemanager                   # Voice wake-up manager?
+com.oppo.resmonitor                      # App has only icon and means nothing.
+com.oppo.securepay                       # Payment Protection
+com.oppo.tzupdate                        # Useless time zone calibration
+com.oppo.usageDump                       # After-sales service assistance tools
+com.oppo.wifirf                          # Wifi Rf Test
+com.oppo.wifitest                        # Wi-Fi RF, RX test
+com.realme.findphone.client2             # Find my phone client app
+com.realme.wellbeing                     # Sleep capsule Feature for your phone where apps are locked at night to help you get a good night's sleep. No one is probably using this.
+

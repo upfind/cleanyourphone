@@ -1,0 +1,26 @@
+# 全品牌通用：常见含“摇一摇”流氓开屏广告的第三方应用列表
+# 脚本会自动检测手机是否安装了对应包，仅对已安装的应用执行传感器限制 (appops ignore)
+# 屏蔽后不会影响 App 正常使用，仅禁止其获取加速度计/陀螺仪数据用于触发广告跳转
+
+com.tencent.mm                     # 微信
+com.taobao.taobao                  # 手机淘宝
+com.jingdong.app.mall              # 京东
+com.xunmeng.pinduoduo              # 拼多多
+com.zhihu.android                  # 知乎
+com.sina.weibo                     # 微博
+com.bilibili.app.in                # 哔哩哔哩
+com.xingin.xhs                     # 小红书
+com.autonavi.minimap               # 高德地图
+com.baidu.BaiduMap                 # 百度地图
+com.sankuai.meituan                # 美团
+com.dianping.v1                    # 大众点评
+com.ss.android.ugc.aweme           # 抖音
+com.kuaishou.nebula                # 快手极速版 / 快手
+com.netease.cloudmusic             # 网易云音乐
+com.tencent.qqmusic                # QQ音乐
+com.qiyi.video                     # 爱奇艺
+com.tencent.qqlive                 # 腾讯视频
+com.youku.phone                    # 优酷视频
+com.ximalaya.ting.android          # 喜马拉雅
+com.coolapk.market                 # 酷安
+com.dragon.read                    # 番茄免费小说

@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
-# CleanYourPhone 一键精准恢复脚本 (Xiaomi / HyperOS / MIUI)
+# CleanYourPhone 一键精准恢复脚本 (支持多品牌还原)
 # 作用：撤销 clean.sh 所做的所有改动，恢复原厂默认状态
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-RULES_DIR="$ROOT_DIR/rules/xiaomi"
 BACKUP_DIR="$ROOT_DIR/backup"
 LATEST_SNAPSHOT="$BACKUP_DIR/latest"
 
@@ -22,16 +21,22 @@ if [ -z "$DEVICES" ]; then
     exit 1
 fi
 
+BRAND_ID="xiaomi"
+if [ -f "$LATEST_SNAPSHOT/brand.txt" ]; then
+    BRAND_ID=$(cat "$LATEST_SNAPSHOT/brand.txt" | tr -d '[:space:]')
+fi
+RULES_DIR="$ROOT_DIR/rules/$BRAND_ID"
+
 # 1. 恢复被停用的系统广告包
 echo ""
 echo "[1/3] 正在恢复被停用的系统组件..."
 RESTORE_LIST=""
 if [ -f "$LATEST_SNAPSHOT/newly_disabled.txt" ]; then
     RESTORE_LIST="$LATEST_SNAPSHOT/newly_disabled.txt"
-    echo "使用最近一次操作的精准备份快照..."
+    echo "使用最近一次操作的精准备份快照 (品牌: $BRAND_ID)..."
 elif [ -f "$RULES_DIR/debloat.txt" ]; then
     RESTORE_LIST="$RULES_DIR/debloat.txt"
-    echo "未找到独立快照，正在按照规则列表全量回滚..."
+    echo "未找到独立快照，正在按照 rules/$BRAND_ID 规则列表全量回滚..."
 fi
 
 if [ -n "$RESTORE_LIST" ]; then
@@ -72,8 +77,8 @@ echo "[3/3] 正在恢复第三方 App 的传感器访问权限..."
 SHAKE_LIST=""
 if [ -f "$LATEST_SNAPSHOT/shake_restricted_apps.txt" ]; then
     SHAKE_LIST="$LATEST_SNAPSHOT/shake_restricted_apps.txt"
-elif [ -f "$RULES_DIR/shake_apps.txt" ]; then
-    SHAKE_LIST="$RULES_DIR/shake_apps.txt"
+elif [ -f "$ROOT_DIR/rules/shake_apps.txt" ]; then
+    SHAKE_LIST="$ROOT_DIR/rules/shake_apps.txt"
 fi
 
 if [ -n "$SHAKE_LIST" ]; then
